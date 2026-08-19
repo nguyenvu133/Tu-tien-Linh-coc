@@ -1,0 +1,12 @@
+{
+  "name": "tu-tien-linh-coc-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demo game tu tien nguyen ban dung Phaser 4.",
+  "scripts": {
+    "check": "node --check scripts/game.js"
+  },
+  "dependencies": {
+    "phaser": "file:.."
+  }
+}

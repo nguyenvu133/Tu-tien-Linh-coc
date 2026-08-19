@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tu Tiên: Linh Cốc</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-min.js"></script>
+</head>
+<body>
+    <main>
+        <h1>TU TIÊN: LINH CỐC</h1>
+        <p>Khám phá sơn cốc, thu thập linh thảo và đột phá cảnh giới.</p>
+        <section id="game-shell" aria-label="Tu Tiên Linh Cốc">
+            <div id="game"></div>
+            <div id="home-menu" class="menu-layer">
+                <div class="menu-topbar">
+                    <span class="brand-mark">☯ LINH CỐC</span>
+                    <div class="player-stats">
+                        <span>Lv. 1</span><span>HP 100/100</span><span>Linh lực 0/100</span><span>Kim tệ 250</span>
+                    </div>
+                </div>
+                <div class="home-content">
+                    <div>
+                        <p class="eyebrow">SƠN CỐC KHỞI NGUYÊN</p>
+                        <h2>Con đường tu tiên<br><em>bắt đầu từ hôm nay</em></h2>
+                        <button id="new-game" class="primary-button" type="button">▶ New Game</button>
+                    </div>
+                    <div class="feature-grid" aria-label="Menu game">
+                        <button class="feature-button" data-panel="character" type="button"><strong>♙</strong><span>Character</span><small>Thông tin nhân vật</small></button>
+                        <button class="feature-button" data-panel="shop" type="button"><strong>◇</strong><span>Shop</span><small>Đổi linh thạch</small></button>
+                        <button class="feature-button" data-panel="skill" type="button"><strong>ϟ</strong><span>Skill</span><small>6 tuyệt kỹ</small></button>
+                        <button class="feature-button" data-panel="pet" type="button"><strong>♢</strong><span>Pet</span><small>Linh thú đồng hành</small></button>
+                        <button class="feature-button" data-panel="daily" type="button"><strong>✦</strong><span>Daily Gift</span><small>Quà hôm nay</small></button>
+                    </div>
+                </div>
+                <div id="menu-panel" class="menu-panel" hidden>
+                    <button id="close-panel" class="close-button" type="button" aria-label="Đóng panel">×</button>
+                    <p class="eyebrow" id="panel-kicker">HỒ SƠ</p>
+                    <h3 id="panel-title">Character</h3>
+                    <p id="panel-copy">Thông tin nhân vật của đạo hữu.</p>
+                </div>
+                <div class="menu-footer"><button id="quit-game" class="text-button" type="button">■ Quit Game</button><span>Phaser 4 · Linh Cốc Demo</span></div>
+            </div>
+            <div id="stage-select" class="menu-layer stage-select" hidden>
+                <div class="stage-heading">
+                    <div>
+                        <p class="eyebrow">BẢN ĐỒ TU LUYỆN</p>
+                        <h2>Chọn màn chơi</h2>
+                    </div>
+                    <button id="stage-back" class="secondary-button" type="button">⌂ Home</button>
+                </div>
+                <p class="stage-caption">Chọn một stage đã mở để bắt đầu hoặc luyện lại.</p>
+                <div id="stage-grid" class="stage-grid" aria-label="Danh sách stage"></div>
+            </div>
+            <div id="game-actions" class="game-actions" hidden>
+                <button id="game-home" type="button">⌂ Home</button>
+                <button id="game-new" type="button">↻ New Game</button>
+                <button id="game-save" type="button">⇩ Save</button>
+                <button id="game-load" type="button">⇧ Load</button>
+                <button id="game-quit" type="button">■ Quit Game</button>
+                <button id="audio-toggle" type="button" aria-label="Bật tắt âm thanh">♫</button>
+            </div>
+            <div id="loading-screen" class="menu-layer loading-screen" hidden>
+                <div class="loading-mark">✦</div>
+                <p class="eyebrow">ĐANG DỊCH CHUYỂN</p>
+                <h2 id="loading-title">Đang tải sơn cốc...</h2>
+                <div class="loading-track"><span id="loading-progress"></span></div>
+            </div>
+            <aside id="ad-banner" class="ad-banner" aria-label="Quảng cáo trong game">
+                <button id="ad-close" class="ad-close" type="button" aria-label="Đóng quảng cáo">×</button>
+                <div class="ad-art">✦</div>
+                <div class="ad-copy"><strong id="ad-title">TÂN THỦ LINH CỐC</strong><span id="ad-message">Nhận 250 kim tệ và mở khóa hành trình tu tiên.</span></div>
+                <button id="ad-cta" class="ad-cta" type="button">Xem quà</button>
+            </aside>
+            <div id="quit-screen" class="menu-layer quit-screen" hidden>
+                <p class="eyebrow">PHIÊN ĐÃ KẾT THÚC</p>
+                <h2>Hẹn gặp lại tại Linh Cốc</h2>
+                <button id="quit-home" class="primary-button" type="button">⌂ Về Home</button>
+            </div>
+            <div id="defeat-screen" class="menu-layer defeat-screen" hidden>
+                <p class="eyebrow">LINH LỰC CẠN KIỆT</p>
+                <h2>Đạo hữu đã ngã xuống</h2>
+                <p class="defeat-copy">Hành trình dừng lại ở cấp <strong id="defeat-level">1</strong>. Chọn bước tiếp theo.</p>
+                <div class="defeat-actions">
+                    <button id="defeat-retry" class="primary-button" type="button">↻ Chơi lại</button>
+                    <button id="defeat-home" class="secondary-button" type="button">⌂ Menu chính</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+    <script src="scripts/assets.js"></script>
+    <script src="scripts/world.js"></script>
+    <script src="scripts/vip.js"></script>
+    <script src="scripts/realm.js"></script>
+    <script src="scripts/pet.js"></script>
+    <script src="scripts/save.js"></script>
+    <script src="scripts/audio.js"></script>
+    <script src="scripts/game.js"></script>
+    <script src="scripts/menu.js"></script>
+    <script src="scripts/ads.js"></script>
+</body>
+</html>
